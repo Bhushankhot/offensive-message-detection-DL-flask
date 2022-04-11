@@ -16,32 +16,36 @@ socketio = SocketIO(app, manage_session=False)
 def index():
     return render_template('index.html')
 
+
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    if(request.method=='POST'):
+    if(request.method == 'POST'):
         username = request.form['username']
         room = request.form['room']
-        #Store the data in session
+        # Store the data in session
         session['username'] = username
         session['room'] = room
-        return render_template('chat.html', session = session)
+        return render_template('chat.html', session=session)
     else:
         if(session.get('username') is not None):
-            return render_template('chat.html', session = session)
+            return render_template('chat.html', session=session)
         else:
             return redirect(url_for('index'))
+
 
 @socketio.on('join', namespace='/chat')
 def join(message):
     room = session.get('room')
     join_room(room)
-    emit('status', {'msg':  session.get('username') + ' has entered the room.'}, room=room)
+    emit('status', {'msg':  session.get('username') +
+         ' has entered the room.'}, room=room)
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = session.get('room')
-    emit('message', {'msg': session.get('username') + ' : ' + message['msg']}, room=room)
+    emit('message', {'msg': session.get('username') +
+         ' : ' + message['msg']}, room=room)
 
 
 @socketio.on('left', namespace='/chat')
