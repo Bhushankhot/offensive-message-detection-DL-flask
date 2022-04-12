@@ -1,14 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_session import Session
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+import tqdm
+import pandas as pd
+
+# model = pickle.load(open("../timepass-RF.sav", 'rb'))
+df = pd.read_csv("text-vector.csv")
+text_vector = df['tokens'].tolist()
 
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'secret'
 app.config['SESSION_TYPE'] = 'filesystem'
-
 Session(app)
-
 socketio = SocketIO(app, manage_session=False)
 
 
@@ -41,11 +47,25 @@ def join(message):
          ' has entered the room.'}, room=room)
 
 
+def toVect(a):
+    vectorizer = TfidfVectorizer()
+    untokenized_data = [' '.join(tweet)
+                        for tweet in tqdm(text_vector, "Vectorizing...")]
+    vectorizer = vectorizer.fit(untokenized_data)
+    rev = vectorizer.transform([a])
+    return rev
+
+
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = session.get('room')
-    emit('message', {'msg': session.get('username') +
-         ' : ' + message['msg']}, room=room)
+    result = model.predict(toVect(message['msg']))
+    if 'OFF' in result:
+        newmsg = "This message was filtered in accordance to your security settings."
+    else:
+        newmsg = message['msg']
+    emit('message', {'msg': session.get(
+        'username') + ' : ' + newmsg}, room=room)
 
 
 @socketio.on('left', namespace='/chat')
