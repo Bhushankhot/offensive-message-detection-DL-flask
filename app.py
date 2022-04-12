@@ -3,10 +3,10 @@ from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_session import Session
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-import tqdm
+from tqdm import tqdm
 import pandas as pd
 
-# model = pickle.load(open("../timepass-RF.sav", 'rb'))
+modelr = pickle.load(open("timepass-RF.sav", 'rb'))
 df = pd.read_csv("text-vector.csv")
 text_vector = df['tokens'].tolist()
 
@@ -49,19 +49,21 @@ def join(message):
 
 def toVect(a):
     vectorizer = TfidfVectorizer()
-    untokenized_data = [' '.join(tweet)
+    untokenized_data = [''.join(tweet)
                         for tweet in tqdm(text_vector, "Vectorizing...")]
+    print(untokenized_data)
     vectorizer = vectorizer.fit(untokenized_data)
     rev = vectorizer.transform([a])
+    print(rev)
     return rev
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = session.get('room')
-    result = model.predict(toVect(message['msg']))
+    result = modelr.predict(toVect(message['msg']))
     if 'OFF' in result:
-        newmsg = "This message was filtered in accordance to your security settings."
+        newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
     else:
         newmsg = message['msg']
     emit('message', {'msg': session.get(
