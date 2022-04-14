@@ -51,10 +51,10 @@ def toVect(a):
     vectorizer = TfidfVectorizer()
     untokenized_data = [''.join(tweet)
                         for tweet in tqdm(text_vector, "Vectorizing...")]
-    print(untokenized_data)
+    # print(untokenized_data)
     vectorizer = vectorizer.fit(untokenized_data)
     rev = vectorizer.transform([a])
-    print(rev)
+    # print(rev)
     return rev
 
 
