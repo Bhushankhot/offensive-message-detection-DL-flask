@@ -33,11 +33,7 @@
                 $('#chat').scrollTop($('#chat')[0].scrollHeight);
             });
             socket.on('message', function (data) {
-                if(data.err == 'yes'){
-                    $('#chat-box-table').append('<tr><td class="table-user">'+data.user+'</td><td class="err-msg err-msg-txt">:  '+data.msg+'</td></tr>');
-                }
-                else
-                    $('#chat-box-table').append('<tr><td class="table-user">'+data.user+'</td><td class="err-msg">:  '+data.msg+'</td></tr>');
+                $('#chat').val($('#chat').val() + data.msg + '\n');
                 $('#chat').scrollTop($('#chat')[0].scrollHeight);
             });
             $('#send').click(function (e) {
@@ -100,20 +96,11 @@
             <div class="chatwindow">
                 <h2>Welcome to the Chat</h2>
                 <h2>Room : {{session['room']}}</h2><br>
-                <div id="chat-box">
-                    <div id="chat" >No messages yet. Start one...</div>
-                    <hr>
-                    <table id="chat-box-table">
-        
-                    </table>
-                </div>
-                <br>
-                <br>
+                <textarea id="chat" cols="70" rows="10"
+                    placeholder="No messages yet. Start one..."></textarea><br /><br />
                 <div id="inputsend">
                     <input type="text" id="text" size="60" placeholder="Enter your message here" />
-                    <button type="button" id="send" class="btn btn-success">SEND</button>
-                    <br>
-                    <br>
+                    <button type="button" id="send" class="btn btn-success">SEND</button><br /><br />
                 </div>
                 <script>
                     var input = document.getElementById("text");

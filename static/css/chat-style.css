@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+.form-signin {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+/* Chat Page */
+.table-user{
+    width: 6em;
+    padding: 0.25em;
+    margin:auto;
+    padding-top:0;
+}
+.err-msg{
+    word-break: break-all;
+    text-align: left;
+    width: 36em;
+}
+.err-msg-txt{
+    color: red;
+}
+.chatwindow{
+    width: 41%;
+}
+#chat-box{
+    overflow-y: auto;
+    height: 18em;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+}
+#chat-box-table{
+    width: 70%;
+    /* border:1px solid black; */
+    margin: auto;
+}
+#inputsend{
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: center;
+}
+#chat{
+    padding-top: 0.35em;
+    width: 100%;
+}
+#text{
+    padding: 0.47em;
+}
+#send{
+    margin-left: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.48em;
+}
+h2 {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+

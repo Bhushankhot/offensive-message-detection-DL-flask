@@ -64,11 +64,10 @@ def text(message):
     result = modelr.predict(toVect(message['msg']))
     if 'OFF' in result:
         newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
+        emit('message', {'user':session.get('username'),'msg': newmsg,'err': 'yes'}, room=room)
     else:
         newmsg = message['msg']
-    emit('message', {'msg': session.get(
-        'username') + ' : ' + newmsg}, room=room)
-
+        emit('message', {'user':session.get('username'),'msg': newmsg,'err': 'no'}, room=room)
 
 @socketio.on('left', namespace='/chat')
 def left(message):

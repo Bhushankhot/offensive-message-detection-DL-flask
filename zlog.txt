@@ -1,0 +1,8 @@
+online random user chat website ( just sign up and chat )
+languages?
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+user on signup can decide the level of security he wants ( e.g. f*ck or **** )
+account reputation system (with user feedback after every conversation )
