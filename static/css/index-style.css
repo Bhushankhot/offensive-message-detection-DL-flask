@@ -8,6 +8,10 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.custom-kartik{
+  justify-content: center;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -398,7 +402,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #hero h2 {
   color: #eee;
-  margin-bottom: 50px;
+  margin-bottom: 1em;
   font-size: 24px;
 }
 #hero .btn-get-started {
