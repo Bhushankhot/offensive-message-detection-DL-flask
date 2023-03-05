@@ -34,6 +34,14 @@
 .err-msg-txt{
     color: red;
 }
+
+.join-msg-txt {
+    color: rgb(21, 175, 39);
+}
+.leave-msg-txt {
+    color: rgb(245, 108, 50);
+}
+
 .chatwindow{
     width: 41%;
 }

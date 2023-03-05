@@ -36,6 +36,12 @@
                 if(data.err == 'yes'){
                     $('#chat-box-table').append('<tr><td class="table-user">'+data.user+'</td><td class="err-msg err-msg-txt">:  '+data.msg+'</td></tr>');
                 }
+                else if(data.err == 'join'){
+                    $('#chat-box-table').append('<tr><td class="table-user">' + data.user + '</td><td class="err-msg join-msg-txt">:  ' + data.msg + '</td></tr>');
+                }
+                else if (data.err == 'leave') {
+                    $('#chat-box-table').append('<tr><td class="table-user">' + data.user + '</td><td class="err-msg join-msg-txt">:  ' + data.msg + '</td></tr>');
+                }
                 else
                     $('#chat-box-table').append('<tr><td class="table-user">'+data.user+'</td><td class="err-msg">:  '+data.msg+'</td></tr>');
                 $('#chat').scrollTop($('#chat')[0].scrollHeight);
