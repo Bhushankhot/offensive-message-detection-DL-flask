@@ -11,6 +11,7 @@ from tqdm import tqdm
 import pandas as pd
 
 from sklearn import preprocessing
+from tensorflow import keras
 from tensorflow.keras.models import load_model
 
 modelr = pickle.load(open("timepass-RF.sav", 'rb'))
@@ -87,6 +88,7 @@ def authorize():
     # Here you use the profile/user data that you got and query your database find/register the user
     # and set ur own data in the session not the profile from google
     session['user_email'] = user_info.get('email')
+    session['logged_in'] = True
     session['user_names'] = user_info.get('name')
     print(user_info)
     session['profile'] = user_info
@@ -98,11 +100,6 @@ def authorize():
 @app.route('/layout')
 def layout():
     return render_template('layout.html')
-
-
-@app.route('/index2')
-def index2():
-    return render_template('index2.html')
 
 
 @app.route('/logout')
@@ -133,7 +130,7 @@ def join(message):
     room = session.get('room')
     join_room(room)
     sys = "System"
-    newmsg = "has entered the room"
+    newmsg = " has entered the room"
     emit('message', {'user': sys,
          'msg': session.get('username')+newmsg, 'err': 'join'}, room=room)
     # emit('status', {'msg':  session.get('username') +
@@ -161,7 +158,7 @@ def Predict_Next_Words(model, tokenizer, text):
     preds = model.predict(sequence)
     final = preprocessing.normalize(preds)
     if int(final[0][0]) == 1:
-        print(final)
+        # print(final)
         return "OFF"
     else:
         return "NOT-OFF"
@@ -175,6 +172,7 @@ tokenizer = pickle.load(open('token.pkl', 'rb'))
 def text(message):
     room = session.get('room')
     result = Predict_Next_Words(model, tokenizer, message['msg'])
+    session['message-send'] = True
     if result == "OFF":
         newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
         emit('message', {'user': session.get('username'),

@@ -13,20 +13,25 @@
     <div class="hero-container2" data-aos="fade-up" data-aos-delay="150">
         <section id="getstarted" class="about">
 
-            <div class="container" style="margin-top:90px;" data-aos="fade-up">
+            <div class="container" style="margin-top:110px;width: 60%;padding-top: 40px;padding-top: 40px;"
+                data-aos="fade-up">
                 <div class="custom-kartik row gx-0">
 
                     <div class="col-lg-6 d-flex flex-column justify-content-centerr" data-aos="fade-up"
                         data-aos-delay="200" ">
                         <div class=" content">
                         <form class=" form-signin" action="{{url_for('chat')}}" method="POST">
-                            <h3 style="text-align: center;">Clean Chat</h3>
+                            <h2
+                                style="text-align: center; font-family: 'Courier New', Courier, monospace;font-weight: 700;">
+                                CleanChat
+                            </h2>
                             <h3 style="text-align: center;">{{user_email}}</h3>
                             <input type="text" id="username" name="username" class="form-control" placeholder="Username"
                                 value="{{nameofuser}}"><br>
                             <input type="text" id="room" name="room" class="form-control" placeholder="Room"
                                 required><br>
-                            <button class="btn btn-lg btn-primary btn-block" value="submit">Start Chat</button>
+                            <button class="btn btn-lg btn-primary btn-block" style="margin-left: 110px;"
+                                value="submit">Start Chat</button>
                         </form>
                     </div>
                 </div>
@@ -35,40 +40,8 @@
 
             </div>
     </div>
-
-</section>
-
-</section>
-<section id="getstarted" class="about">
-
-    <div class="container" data-aos="fade-up">
-        <div class="custom-kartik row gx-0">
-
-            <div class="col-lg-6 d-flex flex-column justify-content-centerr" data-aos="fade-up" data-aos-delay="200">
-                <div class="content">
-                    <form class="form-signin" action="{{url_for('chat')}}" method="POST">
-                        <h3 style="text-align: center;">Clean Chat</h3>
-                        <h3 style="text-align: center;">{{user_email}}</h3>
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Username"
-                            value="{{nameofuser}}"><br>
-                        <input type="text" id="room" name="room" class="form-control" placeholder="Room" required><br>
-                        <button class="btn btn-lg btn-primary btn-block" value="submit">Start Chat</button>
-                    </form>
-                </div>
-            </div>
-
-
-
-        </div>
+    </body>
     </div>
-
-</section>
-
-
-
-
-</body>
-</div>
 </section>
 
 </html>

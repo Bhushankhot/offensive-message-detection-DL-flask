@@ -380,6 +380,37 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   padding: 0;
 }
+#hero2 {
+  width: 100%;
+  height: 100vh;
+  background: url("../img/herobg3.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#hero4 {
+  width: 100%;
+  height: 100vh;
+  background: url("../img/hightscity.jpg") top center;
+  background-size: cover;
+  position: relative;
+  padding: 0;
+}
+
+#hero4 .hero-container4 {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
 #hero:before {
   content: "";
   background: rgba(13, 20, 26, 0.7);

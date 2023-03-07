@@ -20,11 +20,19 @@
 }
 
 /* Chat Page */
+
 .table-user{
+    position:relative;
+    margin-left: 2px;
     width: 6em;
     padding: 0.25em;
-    margin:auto;
+    /* margin:auto; */
     padding-top:0;
+    font-family: 'Roboto';
+        color: brown;
+        font-weight: bold;
+        text-decoration-line: underline;
+        text-decoration-style: double;
 }
 .err-msg{
     word-break: break-all;
@@ -43,22 +51,25 @@
 }
 
 .chatwindow{
-    width: 41%;
+    width: 45%;
 }
 #chat-box{
     overflow-y: auto;
-    height: 18em;
-    background-color: aliceblue;
+    height: 22em;
+    background-color: rgb(252, 254, 255);
     display: flex;
     flex-direction: column;
+    border: solid black 4px;
 }
 #chat-box-table{
-    width: 70%;
+    width: 85%;
     /* border:1px solid black; */
-    margin: auto;
+    margin-top: 20px;
+    margin-left:4px;
 }
 #inputsend{
-    margin-bottom: 1em;
+    margin-top: 2px;
+        /* margin-bottom: 1em; */
     display: flex;
     justify-content: center;
 }
