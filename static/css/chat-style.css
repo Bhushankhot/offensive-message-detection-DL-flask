@@ -26,6 +26,7 @@
     margin-left: 2px;
     width: 6em;
     padding: 0.25em;
+    border-top: 2px dotted red;
     /* margin:auto; */
     padding-top:0;
     font-family: 'Roboto';
@@ -38,6 +39,7 @@
     word-break: break-all;
     text-align: left;
     width: 36em;
+    border-top: 2px dotted red;
 }
 .err-msg-txt{
     color: red;
@@ -45,6 +47,7 @@
 
 .join-msg-txt {
     color: rgb(21, 175, 39);
+    border-bottom: 2px dotted green;;
 }
 .leave-msg-txt {
     color: rgb(245, 108, 50);

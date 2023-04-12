@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_socketio import SocketIO, join_room, leave_room, emit
 from flask_session import Session
 from flask import Flask, redirect, url_for, session
@@ -150,31 +150,31 @@ def toVect(a):
 
 def Predict_Next_Words(model, tokenizer, text):
 
-    sequence = tokenizer.texts_to_sequences([text])
-    for i in sequence:
-        if len(i) < 30:
-            for k in range(len(i), 30):
-                i.append(0)
-    preds = model.predict(sequence)
-    final = preprocessing.normalize(preds)
-    if int(final[0][0]) == 1:
+    vector = tokenizer.transform([text]).todense()
+    preds = model.predict(vector)
+    # final = preprocessing.normalize(preds)
+    if preds[0][0] >= 0.5:
         # print(final)
         return "OFF"
     else:
         return "NOT-OFF"
 
 
-model = load_model('sem8cheel.h5')
-tokenizer = pickle.load(open('token.pkl', 'rb'))
+model = load_model('4898-53-47-tfidf-nn-20eps.h5')
+tokenizer = pickle.load(open('4898-53-47-tfidf-nn-20eps.pkl', 'rb'))
 
 
 @socketio.on('text', namespace='/chat')
 def text(message):
     room = session.get('room')
     result = Predict_Next_Words(model, tokenizer, message['msg'])
+    result2 = modelr.predict(toVect(message['msg']))
+
     session['message-send'] = True
-    if result == "OFF":
+    if result == "OFF" or result2 == "OFF":
+
         newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
+
         emit('message', {'user': session.get('username'),
              'msg': newmsg, 'err': 'yes'}, room=room)
     else:
