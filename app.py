@@ -58,6 +58,7 @@ def login_required(f):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session.setdefault("filter_status", "deactivated")
     return render_template('index.html')
 
 
@@ -163,6 +164,40 @@ def Predict_Next_Words(model, tokenizer, text):
 model = load_model('4898-53-47-tfidf-nn-20eps.h5')
 tokenizer = pickle.load(open('4898-53-47-tfidf-nn-20eps.pkl', 'rb'))
 
+list3 = ['fuck you', 'fuck',
+         "madarchod", "madarc**d", "lavda", "la**ya", "a55", "@$$", "b!tch", "bho***ka", "ga*du", "pu$$y", ]
+
+
+def censor(text):
+    dummy = text
+    for word in text.split():
+        if word in list3:
+            replc_word = ""
+            i = 0
+            for jk in word:
+                if i % 2 == 0:
+                    replc_word += jk
+                else:
+                    replc_word += "*"
+                i += 1
+            dummy = dummy.replace(word, replc_word)
+    return dummy
+
+
+@app.route("/filter", methods=["POST"])
+def filter():
+    selected_option = request.form["selected_option"]
+    session["filter_status"] = selected_option
+
+    if "filter_status" in session:
+        if selected_option == "apply":
+            session["filter_status"] = "activated"
+        elif selected_option == "deactivate":
+            session["filter_status"] = "deactivated"
+        else:
+            session["filter_status"] = "deactivated"
+    return "Filter status updated: {}".format(session["filter_status"])
+
 
 @socketio.on('text', namespace='/chat')
 def text(message):
@@ -171,16 +206,32 @@ def text(message):
     result2 = modelr.predict(toVect(message['msg']))
 
     session['message-send'] = True
-    if result == "OFF" or result2 == "OFF":
+    print(session["filter_status"])
 
-        newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
+    if (session["filter_status"] == "activated"):
+        # result3 = predictlist(message['msg'], list3)
+        # if result == "OFF" or result2 == "OFF":
 
-        emit('message', {'user': session.get('username'),
-             'msg': newmsg, 'err': 'yes'}, room=room)
-    else:
-        newmsg = message['msg']
+        #     newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
+
+        #     emit('message', {'user': session.get('username'),
+        #                      'msg': newmsg, 'err': 'yes'}, room=room)
+        # else:
+        newmsg = censor(message['msg'])
         emit('message', {'user': session.get('username'),
                          'msg': newmsg, 'err': 'no'}, room=room)
+    elif(session["filter_status"] == "deactivated"):
+        print("inside this")
+        if result == "OFF" or result2 == "OFF":
+
+            newmsg = "MESSAGE DELETED DUE ITS OFFENSIVE NATURE"
+
+            emit('message', {'user': session.get('username'),
+                             'msg': newmsg, 'err': 'yes'}, room=room)
+        else:
+            newmsg = message['msg']
+            emit('message', {'user': session.get('username'),
+                             'msg': newmsg, 'err': 'no'}, room=room)
 
 
 @socketio.on('left', namespace='/chat')
@@ -190,7 +241,7 @@ def left(message):
     leave_room(room)
     session.clear()
     sys = "System"
-    newmsg = "has entered the room"
+    newmsg = " has left the room"
     emit('message', {'user': sys,
          'msg':  username+newmsg, 'err': 'leave'}, room=room)
     # emit('status', {'msg': username + ' has left the room.'}, room=room)
